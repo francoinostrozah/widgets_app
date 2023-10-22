@@ -27,6 +27,10 @@ class _UiControlsViewState extends State<_UiControlsView> {
   bool isDeveloper = true;
   Transportation selectedTransportation = Transportation.car;
 
+  bool wantsBreakfast = false;
+  bool wantsLunch = false;
+  bool wantsDinner = false;
+
   @override
   Widget build(BuildContext context) {
     return ListView(physics: const ClampingScrollPhysics(), children: [
@@ -37,14 +41,44 @@ class _UiControlsViewState extends State<_UiControlsView> {
           onChanged: (value) => setState(() {
                 isDeveloper = !isDeveloper;
               })),
-      ...Transportation.values.map((transportation) => RadioListTile(
-          title: Text('By ${transportation.name}'),
-          subtitle: Text('Travel by ${transportation.name}'),
-          value: transportation,
-          groupValue: selectedTransportation,
-          onChanged: (value) => setState(() {
-                selectedTransportation = transportation;
-              }))),
+      ExpansionTile(
+        title: const Text('Transport Vehicle'),
+        subtitle: Text(selectedTransportation.name),
+        children: [
+          ...Transportation.values.map((transportation) => RadioListTile(
+              title: Text('By ${transportation.name}'),
+              subtitle: Text('Travel by ${transportation.name}'),
+              value: transportation,
+              groupValue: selectedTransportation,
+              onChanged: (value) => setState(() {
+                    selectedTransportation = transportation;
+                  }))),
+        ],
+      ),
+      ExpansionTile(
+        title: const Text('Comidas'),
+        subtitle: const Text('Elección de comidas'),
+        children: [
+          CheckboxListTile(
+              title: const Text('¿Desayuno?'),
+              value: wantsBreakfast,
+              onChanged: (value) => setState(() {
+                    wantsBreakfast = !wantsBreakfast;
+                  })),
+          CheckboxListTile(
+              title: const Text('¿Almuerzo?'),
+              value: wantsLunch,
+              onChanged: (value) => setState(() {
+                    wantsLunch = !wantsLunch;
+                  })),
+          CheckboxListTile(
+              title: const Text('Cena?'),
+              value: wantsDinner,
+              onChanged: (value) => setState(() {
+                    wantsDinner = !wantsDinner;
+                  }))
+        ],
+      )
     ]);
   }
 }
